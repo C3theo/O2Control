@@ -1,42 +1,63 @@
-/* A Stepper Motor Application
-* Written by Derek Molloy for the book "Exploring BeagleBone: Tools and 
-* Techniques for Building with Embedded Linux" by John Wiley & Sons, 2014
-* ISBN 9781118935125. Please see the file README.md in the repository root 
-* directory for copyright and GNU GPLv3 license information.
-* The pins for this example are wired as follows:
-* MS1 - BBB P8_12 = GPIO 1_12 = GPIO 44
-* MS2 - BBB P8_18 = GPIO 2_01 = GPIO 65
-* STEP- BBB P8_14 = GPIO 0_26 = GPIO 26
-* SLP - BBB P8_11 = GPIO 1_13 = GPIO 45
-* DIR - BBB P8_16 = GPIO 1_14 = GPIO 46
+/* 
+* Application to control buzzer, encoder, and motor.
+* Adapted from Derek Molloy's book "Exploring Raspberry Pi" 
+* and Samy Kamkar's combobreaker.
+
+* The pins are wired as follows:
+Motor:
+* SLP - RPi GPIO4 = 7
+* MS1 - RPi GPIO17 = 11
+* STEP- RPi GPIO27 = 13
+* DIR - RPi GPIO22 = 15
+* MS2 - RPi GPIO24 = 18
+
+Buzzer:
+
+Encoder:
+
+
+
+Import python code for pulse ox using Boostpython
+or rewrite 
 */
 
 #include <iostream>
-#include "motor/StepperMotor.h"
+#include "StepperMotor.h"
+#include "GPIO.h"
+#include "Wiring.h"
+
 using namespace std;
 using namespace exploringBB;
 
+void soundBuzzer(GPIO buzzer){ // Not correct - pass object into function?
+	buzz_GPIO.setValue(HIGH); // if alarm set high for 5 seconds 
+	// usleep(5000);
+	buzz_GPIO.setValue(LOW);
+  
+}
+
 int main(){
-   cout << "Starting EBB Stepper Motor Example:" << endl;
-   //Using 5 GPIOs, RPM=60 and 200 steps per revolution
-   StepperMotor m(44,65,26,45,46,60,200);
-   m.setDirection(StepperMotor::ANTICLOCKWISE);
-   m.setStepMode(StepperMotor::STEP_FULL);
+  
+   //Setup Motor GPIOs, RPM=60 and 200 steps per revolution
+   StepperMotor m(17,24,27,4,22,60,200);
+   m.setDirection(StepperMotor::CLOCKWISE); // set default to increase after calibration
+   m.setStepMode(StepperMotor::STEP_FULL); // test half
    m.setSpeed(100);  //rpm
-   cout << "Rotating 10 times at 100 rpm anti-clockwise, full step..." << endl;
-   m.rotate(3600.0f);   //in degrees
-   cout << "Finished regular (non-threaded) rotation)" << endl;
-   m.setDirection(StepperMotor::CLOCKWISE);
-   cout << "Performing 1 threaded revolution in 5 seconds using micro-stepping:" << endl;
-   m.setStepMode(StepperMotor::STEP_EIGHT);
-   if(m.threadedStepForDuration(1600, 5000)<0){
-      cout << "Failed to start the Stepper Thread" << endl;
-   }
-   cout << "Thread should now be running..." << endl;
-      for(int i=0; i<10; i++){ // sleep for 10 seconds.
-      usleep(1000000);
-      cout << i+1 << " seconds has passed..." << endl;
-   }
+   
+   //Encoder
+   
+   //PulseOx
+   
+   //Buzzer
+   
+   GPIO buzz_GPIO(17);    // pin 11 (Buzzer output)
+   buzz_GPIO.setDirection(OUTPUT);    // setup buzz_GPIO as output
+
+	
+	m.increaseFiO2();
+	// if alarm 
+	m.decreaseFiO2();
+	
+
    m.sleep();   // cut power to the stepper motor
-   cout << "End of Stepper Motor Example" << endl;
 }
