@@ -35,7 +35,7 @@ using std::ofstream;
 
 #define GPIO_PATH "/sys/class/gpio/"
 
-namespace exploringBB {
+namespace O2Controller {
 
 typedef int (*CallbackType)(int);
 
@@ -108,6 +108,6 @@ private:
 void* threadedPoll(void *value);
 void* threadedToggle(void *value);
 
-} /* namespace exploringBB */
+} /* namespace O2Controller */
 
 #endif /* GPIO_H_ */

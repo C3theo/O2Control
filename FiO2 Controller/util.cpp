@@ -28,7 +28,7 @@
 #include<sstream>
 using namespace std;
 
-namespace exploringBB {
+namespace O2Controller {
 
 /**
  * Helper write function that writes a single string value to a file in the path provided
@@ -79,4 +79,4 @@ int write(string path, string filename, int value){
    return write(path,filename,s.str());
 }
 
-} /* namespace exploringBB */
+} /* namespace O2Controller */

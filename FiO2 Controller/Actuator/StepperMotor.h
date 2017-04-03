@@ -26,7 +26,7 @@
 #define STEPPERMOTOR_H_
 #include "../gpio/GPIO.h"
 
-namespace exploringBB {
+namespace O2Controller {
 
 /**
  * @class StepperMotor
@@ -87,6 +87,6 @@ private:
 
 void* threadedStep(void *value);
 
-} /* namespace exploringBB */
+} /* namespace O2Controller */
 
 #endif /* STEPPERMOTOR_H_ */

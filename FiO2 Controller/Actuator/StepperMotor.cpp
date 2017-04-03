@@ -29,9 +29,8 @@
 
 using namespace std;
 
-namespace exploringBB {
+namespace O2Controller {
 
-// Using GPIO class
 
 StepperMotor::StepperMotor(GPIO *gpio_MS1, GPIO *gpio_MS2, GPIO *gpio_STEP, GPIO *gpio_SLP,
 		 GPIO *gpio_DIR, int speedRPM, int stepsPerRevolution){
@@ -168,17 +167,7 @@ void StepperMotor::rotate(float degrees){
 	//cout << "The delay factor is " << delayFactor << endl;
 	step(numberOfSteps);
 }
-// FiO2 step changes
 
-void StepperMotor::increaseFiO2(){
-	this->setDirection(CLOCKWISE);
-	this->rotate(270.0f);
-}
-
-void StepperMotor::decreaseFiO2(){
-	this->setDirection(ANTICLOCKWISE);
-	this->rotate(270.0f);
-}
 
 void StepperMotor::sleep(){
 	this->asleep = true;
@@ -205,4 +194,4 @@ void* threadedStep(void *value){
 	return 0;
 }
 
-} /* namespace exploringBB */
+} /* namespace O2Controller */

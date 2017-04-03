@@ -27,7 +27,7 @@
 #include<string>
 using std::string;
 
-namespace exploringBB {
+namespace O2Controller {
 
 
 int write(string path, string filename, string value);
@@ -35,6 +35,6 @@ int write(string path, string filename, int value);
 string read(string path, string filename);
 
 
-} /* namespace exploringBB */
+} /* namespace O2Controller */
 
 #endif /* UTIL_H_ */
