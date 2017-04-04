@@ -130,39 +130,7 @@ int main(){
    
    enum SAFETY{UNDETECTABLE, ABOVE_SETPT, BELOW_SETPT, BELOW_SAFE};
    
-   while(1){
-	if (FiO2 > 0.5) {   
-	
-	// Change to multithreaded timer
-		for(int i=0;i<=180; i++){
-			
-			// SpO2 above target for 30 minutes (1800 seconds)
-			if((spO2 > spo2_set) && (spO2 - spo2_set > TOLERANCE)){wean = true;}
-			// Safety System 
-			// Automatically increase FiO2 if SpO2 undetectable, < 88%, or below setpoint
-			else if(fingerOut == true;){
-				wean = false;
-				break;}
-			else if(spO2 < .88){
-				wean = false;
-				break;}
-			else if((spO2 > spo2_set) && (spO2 - spo2_set > TOLERANCE)) {
-				wean = false;
-				break;}
-			sleep(10); // Check every 10 seconds
-		}
-		
-		if(wean == false){m.increaseFiO2();} 
-		else if (wean ==true){m.decreaseFiO2();
-	
-	} else {
-		// Check Patient before continuing 
-		soundBuzzer();
-		// Change wean = true within GUI
-	}  
-	
-	
-	switch(SAFETY){
+   	switch(SAFETY){
 		case ABOVE_SETPT:
 		wean = true;
 		break;
@@ -176,6 +144,55 @@ int main(){
 		wean = false;
 		break;
 	}
+   
+ double FiO2_Check = 0.5;
+ int count = 0;
+   
+   while(1){
+	if (FiO2 > FiO2_Check) {   
+	// Change to multithreaded timer
+		for(int i=0;i<=180; i++){
+			// SpO2 above target for 30 minutes (1800 seconds)
+			if((i==180)&&(spO2 > spo2_set)&&(spO2 - spo2_set > TOLERANCE)){wean = true;}
+			// Safety System 
+			// Automatically increase FiO2 if SpO2 undetectable, < 88%, or below setpoint
+			else if(fingerOut == true;){
+				wean = false;
+				break;}
+			else if(spO2 < .88){
+				wean = false;
+				break;}
+			else if((spO2 > spo2_set) && (spO2 - spo2_set > TOLERANCE)) {
+				wean = false;
+				break;}
+			sleep(10); // Check every 10 seconds
+		}
+	
+		if(wean == false){
+			m.increaseFiO2();
+			wean = NULL;
+			i=0;} 
+		else if (wean ==true){
+			m.decreaseFiO2();
+			wean = NULL
+			i=0; // restart counter
+	
+	} else {
+		// Check Patient before continuing 
+		soundBuzzer();
+		// Prompt Dr. Input
+		FiO2_Check = 0.25;
+		count++;
+		if(count == 2){
+			sprintf('Patient Weaned');
+			return 0;	
+		}
+
+		// Restart Loop
+	}  
+	
+	
+
 	
    }
 }
