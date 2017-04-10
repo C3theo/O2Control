@@ -33,8 +33,6 @@ void updatePosition(){
 	lastISRTime = currentISRTime;
  }
 
- // Make sure FiO2 not setup/delivering O2!!!!
- // Encoder feedback without index channel
  void calibrate(StepperMotor *motor){
 	  spin CCW for 2 seconds - shaft catches on knob
 	  spin 146 steps ~ 270deg
