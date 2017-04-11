@@ -40,53 +40,55 @@ int main(){
 	pullUpDnControl(ENC_A, PUD_UP);							// turn on pullups
 	pullUpDnControl(ENC_B, PUD_UP);
     wiringPiISR(ENC_A, INT_EDGE_RISING, &updatePosition); // Encoder Interrupt
-	
-      while(1){
+	while(1){
 	   
-	if (FiO2 > FiO2_Check) {   
-	// Change to multithreaded timer
-		for(int i=0;i<=180; i++){
-			// SpO2 above target for 30 minutes (1800 seconds)
-			if((i==180)&&(spO2 > spo2_set)&&(spO2 - spo2_set > TOLERANCE)){ // 3rd Test
-				wean = true;
+		if (FiO2 > FiO2_Check) {   
+		// Change to multithreaded timer
+			for(int i=0;i<=180; i++){
+				// SpO2 above target for 30 minutes (1800 seconds)
+				if((i==180)&&(spO2 > spo2_set)&&(spO2 - spo2_set > TOLERANCE)){ // 3rd Test
+					wean = true;
+					}
+				// Safety System 
+				// Automatically increase FiO2 if SpO2 undetectable, < 88%, or below setpoint
+				else if(fingerOut == true;){ // 1st Test
+					wean = false;
+					fingerOut = false;
+					spO2 = .85;
+					break;}
+				else if(spO2 < .88){ // 2nd Test
+					wean = false;
+					break;}
+				else if((spO2 > spo2_set) && (spO2 - spo2_set > TOLERANCE)) {
+					wean = false;
+					break;}
+				sleep(10); // Check every 10 seconds
+			}
+		
+			if(wean == false){
+				//m.increaseFiO2();
+				wean = NULL;
+				i=0;
+				} 
+			else if (wean ==true){
+				//m.decreaseFiO2();
+				wean = NULL
+				i=0; // restart counter
+		
+			} else {
+			// Check Patient before continuing 
+			soundBuzzer();
+			// Prompt Dr. Input
+			FiO2_Check = 0.25;
+			count++;
+			if(count == 2){
+				// Patient Weaned
+				return 0;	
 				}
-			// Safety System 
-			// Automatically increase FiO2 if SpO2 undetectable, < 88%, or below setpoint
-			else if(fingerOut == true;){ // 1st Test
-				wean = false;
-				fingerOut = false;
-				spO2 = .85;
-				break;}
-			else if(spO2 < .88){ // 2nd Test
-				wean = false;
-				break;}
-			else if((spO2 > spo2_set) && (spO2 - spo2_set > TOLERANCE)) {
-				wean = false;
-				break;}
-			sleep(10); // Check every 10 seconds
-		}
-	
-		if(wean == false){
-			//m.increaseFiO2();
-			wean = NULL;
-			i=0;
-			} 
-		else if (wean ==true){
-			//m.decreaseFiO2();
-			wean = NULL
-			i=0; // restart counter
-	
-	} else {
-		// Check Patient before continuing 
-		soundBuzzer();
-		// Prompt Dr. Input
-		FiO2_Check = 0.25;
-		count++;
-		if(count == 2){
-			// Patient Weaned
-			return 0;	
-		}
-	// Restart Loop
-	}  
-   }
+		// Restart Loop
+			}  
+			
+    }
+
+
 }
