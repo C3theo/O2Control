@@ -1,0 +1,3 @@
+#!/bin/bash
+g++ controller.cpp GPIO.cpp StepperMotor.cpp -o O2Test -pthread
+
