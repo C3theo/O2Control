@@ -10,6 +10,7 @@ Improve calibration routine
 #include <iostream>
 #include <wiringPi.h>
 #include <unistd.h>
+#include "StepperMotor.h"
 using namespace std;
 
 #define ENC_A 4
@@ -19,7 +20,7 @@ using namespace std;
 
 int encPos = 0;
 
- ISR to indicate shaft movement - debounced
+// ISR to indicate shaft movement - debounced
 void updatePosition(){
 	 static unsigned long lastISRTime = 0, x = 1;
 	 static unsigned long currentISRTIme = millis();
@@ -36,8 +37,8 @@ void updatePosition(){
  // Make sure FiO2 not setup/delivering O2!!!!
  // Encoder feedback without index channel
  void calibrate(StepperMotor *motor){
-	  spin CCW for 2 seconds - shaft catches on knob
-	  spin 146 steps ~ 270deg
+//	  spin CCW for 2 seconds - shaft catches on knob
+//	  spin 146 steps ~ 270deg
 	 motor.setDirection(ANTICLOCKWISE);
 	 motor.threadedStepforDuration(146, 500); // check rpm
 	 unsigned long minposition = 0;
@@ -53,9 +54,12 @@ void updatePosition(){
 	pinMode(ENC_B, INPUT);
 	pullUpDnControl(ENC_A, PUD_UP);							// turn on pullups
 	pullUpDnControl(ENC_B, PUD_UP);
-	calibrate(motor);
-	while(1){
-		wiringPiISR(ENC_A, INT_EDGE_RISING, &updatePosition);
-	}
+//	calibrate(motor);
+//	while(1){
+//		wiringPiISR(ENC_A, INT_EDGE_RISING, &updatePosition);
+//	}
+
+
+	increaseFiO2(&motor);
 	return 0;
  }
