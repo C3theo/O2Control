@@ -49,6 +49,10 @@ int encPosition = 0;
 double set_spO2 = .93;
 double set_FiO2 = .8;
 
+double FiO2_Check = 0.6;
+double spO2 = .95;
+int count = 0;
+bool fingerOut = true;
 
 void soundBuzzer(){ 
 	for(int i = 0; i<6; i++){
@@ -92,6 +96,7 @@ void increaseFiO2(StepperMotor *motor){
 	motor.wake();
 	motor.setDirection(StepperMotor::CLOCKWISE);
 	motor.rotate(270.0F);
+	FiO2 += .1;
 	motor.sleep();
 }
 
@@ -99,6 +104,7 @@ void decreaseFiO2(StepperMotor *motor){
 	motor.wake();
 	motor.setDirection(StepperMotor::ANTICLOCKWISE);
 	motor.rotate(270.0F);
+	FiO2 -= .1;
 	motor.sleep();
 }
 
@@ -121,7 +127,6 @@ int main(){
    
 	//PulseOx
 	
-	// python-dumpLiveData()
 
    calibrate(&motor, &maxPosition);
    
@@ -145,21 +150,24 @@ int main(){
 		break;
 	}
    
- double FiO2_Check = 0.5;
- int count = 0;
-   
+
    while(1){
+	   
 	if (FiO2 > FiO2_Check) {   
 	// Change to multithreaded timer
 		for(int i=0;i<=180; i++){
 			// SpO2 above target for 30 minutes (1800 seconds)
-			if((i==180)&&(spO2 > spo2_set)&&(spO2 - spo2_set > TOLERANCE)){wean = true;}
+			if((i==180)&&(spO2 > spo2_set)&&(spO2 - spo2_set > TOLERANCE)){ // 3rd Test
+				wean = true;
+				}
 			// Safety System 
 			// Automatically increase FiO2 if SpO2 undetectable, < 88%, or below setpoint
-			else if(fingerOut == true;){
+			else if(fingerOut == true;){ // 1st Test
 				wean = false;
+				fingerOut = false;
+				spO2 = .85;
 				break;}
-			else if(spO2 < .88){
+			else if(spO2 < .88){ // 2nd Test
 				wean = false;
 				break;}
 			else if((spO2 > spo2_set) && (spO2 - spo2_set > TOLERANCE)) {
@@ -171,7 +179,8 @@ int main(){
 		if(wean == false){
 			m.increaseFiO2();
 			wean = NULL;
-			i=0;} 
+			i=0;
+			} 
 		else if (wean ==true){
 			m.decreaseFiO2();
 			wean = NULL
@@ -187,12 +196,7 @@ int main(){
 			sprintf('Patient Weaned');
 			return 0;	
 		}
-
-		// Restart Loop
+	// Restart Loop
 	}  
-	
-	
-
-	
    }
 }

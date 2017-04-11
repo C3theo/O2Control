@@ -24,7 +24,7 @@
 
 #ifndef STEPPERMOTOR_H_
 #define STEPPERMOTOR_H_
-#include "../gpio/GPIO.h"
+#include "GPIO.h"
 
 namespace O2Controller {
 
