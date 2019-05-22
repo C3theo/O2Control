@@ -1,2 +1,4 @@
 # O2Control
-FIO2 Control system for PICU
+2017 Senior Design Project
+
+## FIO2 Control system for PICU
